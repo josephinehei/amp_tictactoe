@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             if (gameState[tapped] == 0) {
                 counter++;
                 gameState[tapped] = playersTurn;
-
+                //switches back and forth between X and O for players to take turns
                 if (playersTurn == 1) {
                     image.setImageResource(R.drawable.ximage);
                     playersTurn = 2;
@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                     turnDisplay.setText("X's Turn - Tap to Play");
                 }
             }
+            //player playing agains the computer
         } else {
             if (gameState[tapped] == 0) {
                 counter++;
@@ -78,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
                     playersTurn = 2;
                     turnDisplay = findViewById(R.id.turnDisplay);
                     turnDisplay.setText("Computer's Turn");
+                    //making sure the game is not won, then putting an "O"
+                    // in the position the computer had chosen for its spot
                     int[] newBoard = makeCopyOfBoard(gameState);
                     int number = computerMove(newBoard, playersTurn);
                     if (number >= 0 && gameState[number] == 0) {
@@ -111,22 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-            //checks for winners, then goes opens alert box if there is a winner
-//            for (int[] winPosition : winPositions) {
-//                if (gameState[winPosition[1]] == gameState[winPosition[2]] && gameState[winPosition[2]] == gameState[winPosition[0]] &&
-//                        gameState[winPosition[1]] != 0) {
-//                    flag = 1;
-//                    if (gameState[winPosition[1]] == 1) {
-//                        if(playingComputer == true){openAlertBox(view, "You won!");}
-//                        else{openAlertBox(view, "X has won!");}
-//                    } else {
-//                        if(playingComputer == true){
-//                            openAlertBox(view, "Computer won!");
-//                        }
-//                        else {openAlertBox(view, "O has won!");}
-//                    }
-//                }
-//            }
+
         //checks for winners, then goes opens alert box if there is a winner
                 if (winningPositions(HUMAN, gameState)) {
                     if(playingComputer){openAlertBox(view, "You won!");}
@@ -143,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //reseting the board game so that nothing is played
     public void resetGame(View view){
         cancelled = false;
         playersTurn = 1;
@@ -210,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
         alert.show();
     }
 
+    //Opens up dialog box to determine if app will need to use the computerMove methods
     private void openStartAlert() {
         AlertDialog.Builder dialogBox = new AlertDialog.Builder(this);
         dialogBox.setMessage("Play against a ...");
@@ -241,6 +231,7 @@ public class MainActivity extends AppCompatActivity {
         alert.show();
     }
 
+    //Usese the minmax algorithm to determine the best spot to play
     private int computerMove(int[] board, int player){
         int[] newBoard = makeCopyOfBoard(board);
         int[] availSpots = emptyIndexies(newBoard);
